@@ -1,8 +1,7 @@
 class MovingAverageCalculator {
     constructor() {
         this._length = 5 // length of moving average
-        this._average = 0
-        this._valueAr = new Array(this._length).fill(0)//movingAverage memory
+        this._valueAr = new Array(this._length).fill({x:0, y:0})//movingAverage memory
     }
     update(newValue) {
       this._valueAr.pop();//remove the last value
@@ -10,8 +9,18 @@ class MovingAverageCalculator {
     }
     get mean() {
         this.validate();
-        //sum array / length
-        return this._valueAr.reduce((a,b) => a + b, 0)/this._length;
+        const sum = this._valueAr.reduce((a, b) => (
+            {
+                x: a.x + b.x,
+                y: a.y + b.y
+            }
+        ), {x:0, y:0});
+
+        //sum / length
+        return {
+            x: sum.x / this._length,
+            y: sum.y / this._length
+        };
 
     }
     validate() {
@@ -20,5 +29,4 @@ class MovingAverageCalculator {
         }
     }
 }
-const movingAverageX = new MovingAverageCalculator();
-const movingAverageY = new MovingAverageCalculator();
+const movingAverage = new MovingAverageCalculator();
