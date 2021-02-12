@@ -1,14 +1,13 @@
 class MovingAverageCalculator {
-    constructor() {
-        this._length = 5 // length of moving average
-        this._valueAr = new Array(this._length).fill({x:0, y:0})//movingAverage memory
+    constructor(length = 5) {
+        this._length = length; // length of moving average
+        this._valueAr = new Array(this._length).fill({x:0, y:0});//movingAverage memory
     }
     update(newValue) {
-      this._valueAr.pop();//remove the last value
-      this._valueAr.unshift(newValue);//add new value to start
+        this._valueAr.pop();//remove the last value
+        this._valueAr.unshift(newValue);//add new value to start
     }
     get mean() {
-        this.validate();
         const sum = this._valueAr.reduce((a, b) => (
             {
                 x: a.x + b.x,
@@ -16,17 +15,21 @@ class MovingAverageCalculator {
             }
         ), {x:0, y:0});
 
-        //sum / length
+        //totaal gedeeld door de lengte
         return {
             x: sum.x / this._length,
             y: sum.y / this._length
         };
-
-    }
-    validate() {
-        if (this.count == 0) {
-            throw new Error('average is undefined')
-        }
     }
 }
+
+
+
+// hoe maak je een instantie aan:
 const movingAverage = new MovingAverageCalculator();
+
+// hoe vul je hem 'elke update'
+movingAverage.update({x: 5, y:4});
+
+// we vragen de average op (het is een 'getter')
+console.log(movingAverage.mean);
